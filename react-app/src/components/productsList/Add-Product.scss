@@ -1,16 +1,24 @@
 .add-product-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
-    padding: 20px;
-    color: white;
-    text-align: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: .75rem;
+
+    .description {
+        &__item {
+            width: 100%;
+
+            input {
+                margin-left: auto !important;
+            }
+        }
+    }
 }
 
 input[type="text"],
 input[type="password"] {
-    margin: 10px 0;
     padding: 5px;
+    width: 100%;
+}
+
+hr {
+    margin: 5px 0;
 }

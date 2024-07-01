@@ -7,7 +7,7 @@ export const taskList = [
     id: Math.random(),
     image: hpPavilion14,
     info: "Ноутбук HP Laptop 14",
-    price: "26099₴",
+    price: "26099",
     expire: true,
 
     more: {
@@ -21,7 +21,7 @@ export const taskList = [
     id: Math.random(),
     image: asusTufGaming15,
     info: "Ноутбук ASUS TUF Gaming A15 (2023)",
-    price: "36999₴",
+    price: "36999",
     expire: false,
 
     more: {
@@ -35,7 +35,7 @@ export const taskList = [
     id: Math.random(),
     image: acerAspire7,
     info: "Ноутбук Acer Aspire 7",
-    price: "31999₴",
+    price: "31999",
     expire: true,
 
     more: {
