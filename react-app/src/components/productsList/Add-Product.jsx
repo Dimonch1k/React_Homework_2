@@ -8,82 +8,82 @@ import Button from "react-bootstrap/Button";
 import { taskList } from "./productList";
 
 const AddProduct = () => {
+  const [data, setData] = useState([]);
   const [show, setShow] = useState(true);
   const [products, setProducts] = useState(taskList);
-  const [data, setData] = useState([]);
 
   const addProduct = () => {
-    alert("Product added");
-    console.log("Product added");
+    let img = document.querySelector("#product-img");
+    let info = document.querySelector("#product-info");
+    let expire = document.querySelector("#product-expires-true");
+    let price = document.querySelector("#product-price");
 
-    const img = document.querySelector("#product-img").value;
-    const info = document.querySelector("#product-info").value;
-    const expire = document.querySelector("#product-expires-true").checked;
-    const price = document.querySelector("#product-price").value;
+    let processor = document.querySelector("#product-processor");
+    let ram = document.querySelector("#product-ram");
+    let storage = document.querySelector("#product-storage");
+    let display = document.querySelector("#product-display");
 
-    const processor = document.querySelector("#product-processor").value;
-    const ram = document.querySelector("#product-ram").value;
-    const storage = document.querySelector("#product-storage").value;
-    const display = document.querySelector("#product-display").value;
+    let fields = [info, price, processor, ram, storage, display];
 
-    const errors = checkFields(
-      img,
-      info,
-      price,
-      processor,
-      ram,
-      storage,
-      display
-    );
-    if (errors) return;
+    if (isEmptyFields(img, fields)) return;
 
     const newProduct = {
       id: Math.random(),
-      image: img,
-      info: info,
-      expire: expire,
-      price: price,
+      image: img.value,
+      info: info.value,
+      expire: expire.value,
+      price: price.value,
       more: {
-        processor: processor,
-        ram: ram,
-        storage: storage,
-        display: display,
+        processor: processor.value,
+        ram: ram.value,
+        storage: storage.value,
+        display: display.value,
       },
     };
 
+    // Clear all fields
+    clearFields(fields, img);
+
+    // Clear all placeholders
+    clearPlaceholders(fields);
+
+    // Send data to localStorage to verify if data can be stored into list
     setData([...data, newProduct]);
 
+    // DOESN'T WORK YET
     setProducts([...products, newProduct]);
   };
 
-  const checkFields = (img, info, price, processor, ram, storage, display) => {
-    const fields = [info, price, processor, ram, storage, display];
-    const requiredFields = [];
-    for (let i = 0; i < fields.length; i++) {
-      if (fields[i] === "") {
-        requiredFields.push(i);
-      }
+  // Check if all fields are filled
+  const isEmptyFields = (img, fields) => {
+    // check if any field is empty or contains only whitespaces
+    const fieldsIndexes = fields.reduce(
+      (acc, field, index) => (field.value === "" ? [...acc, index] : acc),
+      []
+    );
+
+    // notify about required fields and return false if any is empty
+    if (fieldsIndexes.length > 0) {
+      notifyPlaceholders(fields, fieldsIndexes);
+      return true;
     }
 
-    if (requiredFields.length > 0) {
-      notifyPlaceholders(requiredFields, placeholders);
-
-      if (!checkFileType(img)) return false;
-
-      return false;
-    }
-    return true;
+    return !matchFileType(img);
   };
 
-  function checkFileType(file) {
-    const extension = getExtension(file).toLowerCase();
+  // Check if file is image file
+  function matchFileType(file) {
+    const extension = getExtension(file.value).toLowerCase();
     return /^(jpg|jpeg|png|gif|webp|tiff|bmp)$/.test(extension);
   }
+
+  // Get extension of some file
   function getExtension(file) {
     return file.split(".").pop();
   }
 
-  const notifyPlaceholders = (requiredFields, placeholders) => {
+  // Set placeholder notification for empty fields
+  const notifyPlaceholders = (fields, fieldsIndexes) => {
     const placeholders = [
       "Enter product info",
       "Enter price",
@@ -92,22 +92,25 @@ const AddProduct = () => {
       "Enter storage size",
       "Enter display size",
     ];
-
-    requiredFields.forEach((index) => {
-      const input = document.querySelector(
-        `#product-${
-          ["info", "price", "processor", "ram", "storage", "display"][index]
-        }`
-      );
-      input.placeholder = `${placeholders[index]} (must be filled)`;
+    fieldsIndexes.forEach((index) => {
+      fields[index].placeholder = `${placeholders[index]} (must be filled)`;
     });
   };
 
-  function clearFields(fields) {
+  // Clear all Fields
+  const clearFields = (fields, img) => {
     fields.forEach((field) => {
       field.value = "";
     });
-  }
+    img.value = "";
+  };
+
+  // Clear all Placeholders
+  const clearPlaceholders = (fields) => {
+    fields.forEach((field) => {
+      field.placeholder = "";
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem("dataKey", JSON.stringify(data));
@@ -120,7 +123,6 @@ const AddProduct = () => {
         className="add-product-popup"
         show={show}
         onClose={() => setShow(false)}
-        style={{ position: "fixed", zIndex: "10", backgroundColor: "white" }}
       >
         <Toast.Header>
           <strong className="mr-auto">Add a new product to the list</strong>
@@ -130,45 +132,51 @@ const AddProduct = () => {
           <form>
             <div className="product-view">
               {/* Product Image */}
-              <label for="img">Upload image:</label>
-              <input type="file" name="img" id="product-img" />
+              <label for="img">
+                Upload image: <br />
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="img"
+                  id="product-img"
+                />
+              </label>
               <hr />
 
               {/* Product Info */}
-              <label for="info">Enter info about product:</label>
-              <input type="text" name="info" id="product-info" />
+              <label for="info">
+                Enter info about product:
+                <input type="text" name="info" id="product-info" />
+              </label>
               <hr />
 
               {/* Product Expiration */}
-
               <div className="product-expiration">
-                <label for="expires">Expires:</label>
+                <label>Expires:</label>
 
-                <input
-                  type="radio"
-                  name="expires"
-                  id="product-expires-true"
-                  className="ml-2"
-                />
+                <input type="radio" name="expires" id="product-expires-true" />
                 <label for="expires">Yes</label>
+
                 <input
                   type="radio"
                   name="expires"
                   id="product-expires-false"
-                  className="ml-2 "
                   checked
                 />
                 <label for="expires">No</label>
               </div>
               <hr />
+
+              {/* Product Price */}
+
+              <label for="price">
+                Price:
+                <input type="text" name="price" id="product-price" />
+              </label>
+              <hr />
             </div>
 
-            {/* Product Price */}
-
-            <label for="price">Price:</label>
-            <input type="text" name="price" id="product-price" />
-            <hr />
-
+            {/* Product More */}
             {/* Product Description */}
 
             <div className="description">

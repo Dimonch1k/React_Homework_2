@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import "./mixins.scss";
 
 :is(ul, ul li) {
   list-style-type: none;
@@ -26,8 +27,7 @@ input {
   font-weight: 400;
   font-style: normal;
 
-  display: flex;
-  justify-content: center;
+  @include df_jc_ai(flex, center);
 
   .product {
     position: relative;
@@ -43,13 +43,11 @@ input {
     }
 
     &__image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @include df_jc_ai(flex, center, center);
 
-      max-width: 200px;
       height: 140px;
       max-height: 200px;
+      max-width: 200px;
 
       img {
         height: 100%;
@@ -57,30 +55,27 @@ input {
     }
 
     &__info {
+      @include col_fs(#221f1f, 14px);
+
       text-align: center;
       line-height: 18px;
       height: 36px;
-      color: #221f1f;
-      font-size: 14px;
       max-width: 180px;
     }
 
     &__expire {
-      font-size: 12px;
-      color: #ff5c00;
+      @include col_fs(#ff5c00, 12px);
     }
 
     &__price {
-      font-size: 18px;
+      @include col_fs(#f84147, 18px);
       font-weight: 600;
-      color: #f84147;
     }
 
     &__expire,
     &__price {
       padding-left: 3px;
-      display: flex;
-      align-items: end !important;
+      @include df_jc_ai(flex, start, end !important);
     }
 
     .more-btn {
@@ -94,8 +89,7 @@ input {
       border: none;
       background-color: transparent;
 
-      font-size: small;
-      color: blue;
+      @include col_fs(blue, small);
 
       &:hover {
         text-decoration: underline;
@@ -103,9 +97,8 @@ input {
     }
 
     &__description {
-      font-size: 12px;
-      color: #797878;
+      @include col_fs(#797878, 12px);
+      margin-top: 5px;
     }
   }
 }
-
