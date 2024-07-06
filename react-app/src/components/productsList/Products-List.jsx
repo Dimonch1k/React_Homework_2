@@ -11,14 +11,18 @@ import "./Products-List.scss";
 const ProductsList = () => {
   const [products, setProducts] = useState(taskList);
 
+  const addNewProduct = (product) => {
+    setProducts([...products, product]);
+  }
+
   return (
     <div>
       <Container className="p-3">
         {/* Add Product */}
-        <AddProduct products={products} />
+        <AddProduct addNewProduct={addNewProduct} />
 
         <div className="product-list">
-          {taskList.map((task) => (
+          {products.map((task) => (
             <ProductItem
               key={task.id}
               image={task.image}

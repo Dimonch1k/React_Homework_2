@@ -6,9 +6,7 @@ import Collapse from "react-bootstrap/Collapse";
 const ProductItem = ({ image, info, price, expire, more }) => {
   const [readmore, setReadmore] = useState();
 
-  const toggleReadmore = () => {
-    setReadmore(!readmore);
-  };
+  const toggleReadmore = () => setReadmore(!readmore);
 
   return (
     <>
@@ -25,8 +23,6 @@ const ProductItem = ({ image, info, price, expire, more }) => {
           {expire ? "Expires" : "In stock"}
         </li>
         <li className="product__item product__price">{price}₴</li>
-
-        <button className="more-btn" onClick={toggleReadmore}></button>
 
         <Button
           onClick={() => toggleReadmore(!readmore)}

@@ -78,24 +78,6 @@ input {
       @include df_jc_ai(flex, start, end !important);
     }
 
-    .more-btn {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      list-style-type: none;
-      cursor: pointer;
-
-      width: max-content;
-      border: none;
-      background-color: transparent;
-
-      @include col_fs(blue, small);
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
     &__description {
       @include col_fs(#797878, 12px);
       margin-top: 5px;
